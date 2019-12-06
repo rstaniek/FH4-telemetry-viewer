@@ -123,7 +123,7 @@ function processMessage(message) {
   race_lastLap = message.readFloatLE(290);
   race_currentLap = message.readFloatLE(294);
   race_currentRaceTime = message.readFloatLE(298);
-  race_lapNumber = message.readUInt16LE(302);
+  race_lapNumber = message.readUIntLE(302, 2);
   race_position = message.readUIntLE(304, 1);
 
   input_accel = message.readUIntLE(305, 1);
@@ -135,6 +135,8 @@ function processMessage(message) {
 
   normalizedDrivingLine = message.readIntLE(311, 1);
   normalizedAIBrakeDifference = message.readIntLE(312, 1);
+
+  horizonDashBytes = Buffer.from(message, 232);
 
   const result = {
     isRaceOn: isRaceOn,
@@ -270,7 +272,8 @@ function processMessage(message) {
       clutch: input_clutch,
       handBrake: input_handBrake,
       steer: input_steer
-    }
+    },
+    dashBytes: horizonDashBytes
   };
   return result;
 }
