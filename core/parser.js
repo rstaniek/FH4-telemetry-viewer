@@ -13,7 +13,7 @@ server.on("listening", function() {
 server.on("message", function(message, remote) {
   const data = processMessage(message);
   //console.log(dump(message));
-  console.log(data.horizonDash);
+  console.log(data);
 });
 server.bind(PORT, HOST);
 
@@ -107,8 +107,8 @@ function processMessage(message) {
   car_posZ = message.readFloatLE(252);
   //speed in meters/sec
   car_speed = message.readFloatLE(256);
-  //power in Watts
-  engine_power = message.readFloatLE(260);
+  //power in KW
+  engine_power = message.readFloatLE(260) / 1000;
   engine_torque = message.readFloatLE(264);
 
   //tire temperatures
