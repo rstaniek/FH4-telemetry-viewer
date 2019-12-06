@@ -99,13 +99,55 @@ function processMessage(message) {
   car_drivetrainType = message.readInt32LE(224);
   car_cylinders = message.readInt32LE(228);
 
+  //horizon Sled data starts here
+  car_posX = message.readFloatLE(232);
+  car_posY = message.readFloatLE(236);
+  car_posZ = message.readFloatLE(240);
+  //speed in meters/sec
+  car_speed = message.readFloatLE(244);
+  //power in Watts
+  engine_power = message.readFloatLE(248);
+  engine_torque = message.readFloatLE(252);
+
+  //tire temperatures
+  tire_temp_fl = message.readFloatLE(256);
+  tire_temp_fr = message.readFloatLE(260);
+  tire_temp_rl = message.readFloatLE(264);
+  tire_temp_rr = message.readFloatLE(270);
+
+  engine_boost = message.readFloatLE(274);
+  engine_fuel = message.readFloatLE(278);
+  car_distanceTravelled = message.readFloatLE(282);
+
+  race_bestLap = message.readFloatLE(286);
+  race_lastLap = message.readFloatLE(290);
+  race_currentLap = message.readFloatLE(294);
+  race_currentRaceTime = message.readFloatLE(298);
+  race_lapNumber = message.readUInt16LE(302);
+  race_position = message.readUIntLE(304, 1);
+
+  input_accel = message.readUIntLE(305, 1);
+  input_brake = message.readUIntLE(306, 1);
+  input_clutch = message.readUIntLE(307, 1);
+  input_handBrake = message.readUIntLE(308, 1);
+  input_gear = message.readUIntLE(309, 1);
+  input_steer = message.readIntLE(310, 1);
+
+  normalizedDrivingLine = message.readIntLE(311, 1);
+  normalizedAIBrakeDifference = message.readIntLE(312, 1);
+
   const result = {
     isRaceOn: isRaceOn,
     timestamp: timestamp,
     engine: {
       maxRpm: engine_maxRpm,
       idleRpm: engine_idleRpm,
-      currentRpm: engine_rpm
+      currentRpm: engine_rpm,
+      power: engine_power,
+      torque: engine_torque,
+      boost: engine_boost,
+      fuel: engine_fuel,
+      gear: input_gear
     },
     carInfo: {
       id: car_ordinalID,
@@ -113,6 +155,16 @@ function processMessage(message) {
       performanceIndex: car_performanceIndex,
       drivetrain: car_drivetrainType,
       numOfCylinders: car_cylinders
+    },
+    raceData: {
+      lap: {
+        best: race_bestLap,
+        last: race_lastLap,
+        current: race_currentLap,
+        number: race_lapNumber
+      },
+      raceTime: race_currentRaceTime,
+      position: race_position
     },
     carMovement: {
       acceleration: {
@@ -130,9 +182,17 @@ function processMessage(message) {
         Y: car_angularVelY,
         Z: car_angularVelZ
       },
+      position: {
+        X: car_posX,
+        Y: car_posY,
+        Z: car_posZ
+      },
       yaw: car_yaw,
       pitch: car_pitch,
-      roll: car_roll
+      roll: car_roll,
+      speed_ms: car_speed,
+      speed: car_speed * 3.6,
+      distanceTravelled: car_distanceTravelled
     },
     suspension: {
       travelNormalized: {
@@ -167,6 +227,12 @@ function processMessage(message) {
           fr: tire_tsc_fr,
           rl: tire_tsc_rl,
           rr: tire_tsc_rr
+        },
+        temperatures: {
+          fl: tire_temp_fl,
+          fr: tire_temp_fr,
+          rl: tire_temp_fr,
+          rr: tire_temp_rr
         }
       },
       rotationSpeed: {
@@ -194,7 +260,16 @@ function processMessage(message) {
         fr: forceFeedback_rumble_fr,
         rl: forceFeedback_rumble_rl,
         rr: forceFeedback_rumble_rr
-      }
+      },
+      normalizedDrivingLine: normalizedDrivingLine,
+      normalizedAIBrakeDifference: normalizedAIBrakeDifference
+    },
+    input: {
+      throttle: input_accel,
+      brake: input_brake,
+      clutch: input_clutch,
+      handBrake: input_handBrake,
+      steer: input_steer
     }
   };
   return result;
