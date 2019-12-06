@@ -102,21 +102,22 @@ function processMessage(message) {
   car_cylinders = message.readInt32LE(228);
 
   //horizon Sled data starts here
-  car_posX = message.readFloatLE(240);
-  car_posY = message.readFloatLE(244);
-  car_posZ = message.readFloatLE(248);
+  car_posX = message.readFloatLE(244);
+  car_posY = message.readFloatLE(248);
+  car_posZ = message.readFloatLE(252);
   //speed in meters/sec
-  car_speed = message.readFloatLE(252);
+  car_speed = message.readFloatLE(256);
   //power in Watts
-  engine_power = message.readFloatLE(256);
-  engine_torque = message.readFloatLE(260);
+  engine_power = message.readFloatLE(260);
+  engine_torque = message.readFloatLE(264);
 
   //tire temperatures
-  tire_temp_fl = message.readFloatLE(264);
-  tire_temp_fr = message.readFloatLE(268);
-  tire_temp_rl = message.readFloatLE(272);
-  tire_temp_rr = message.readFloatLE(276);
+  tire_temp_fl = message.readFloatLE(268);
+  tire_temp_fr = message.readFloatLE(272);
+  tire_temp_rl = message.readFloatLE(276);
+  tire_temp_rr = message.readFloatLE(280);
 
+  //this works fine
   engine_boost = message.readFloatLE(284);
   engine_fuel = message.readFloatLE(288);
   car_distanceTravelled = message.readFloatLE(292);
@@ -128,7 +129,6 @@ function processMessage(message) {
   race_lapNumber = message.readUInt16LE(312);
   race_position = message.readUIntLE(314, 1);
 
-  //this works fine
   input_accel = message.readUIntLE(315, 1);
   input_brake = message.readUIntLE(316, 1);
   input_clutch = message.readUIntLE(317, 1);
