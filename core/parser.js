@@ -11,7 +11,8 @@ server.on("listening", function() {
 
 server.on("message", function(message, remote) {
   const data = processMessage(message);
-  console.log(data);
+  console.log(data.horizonDash);
+  console.warn(data.dashBytes);
 });
 server.bind(PORT, HOST);
 
@@ -144,12 +145,7 @@ function processMessage(message) {
     engine: {
       maxRpm: engine_maxRpm,
       idleRpm: engine_idleRpm,
-      currentRpm: engine_rpm,
-      power: engine_power,
-      torque: engine_torque,
-      boost: engine_boost,
-      fuel: engine_fuel,
-      gear: input_gear
+      currentRpm: engine_rpm
     },
     carInfo: {
       id: car_ordinalID,
@@ -158,15 +154,43 @@ function processMessage(message) {
       drivetrain: car_drivetrainType,
       numOfCylinders: car_cylinders
     },
-    raceData: {
-      lap: {
-        best: race_bestLap,
-        last: race_lastLap,
-        current: race_currentLap,
-        number: race_lapNumber
+    horizonDash: {
+      position: {
+        X: car_posX,
+        Y: car_posY,
+        Z: car_posZ
       },
-      raceTime: race_currentRaceTime,
-      position: race_position
+      temperatures: {
+        fl: tire_temp_fl,
+        fr: tire_temp_fr,
+        rl: tire_temp_fr,
+        rr: tire_temp_rr
+      },
+      speed_ms: car_speed,
+      speed: car_speed * 3.6,
+      power: engine_power,
+      torque: engine_torque,
+      boost: engine_boost,
+      fuel: engine_fuel,
+      distanceTravelled: car_distanceTravelled,
+      input: {
+        throttle: input_accel,
+        brake: input_brake,
+        clutch: input_clutch,
+        handBrake: input_handBrake,
+        steer: input_steer,
+        gear: input_gear
+      },
+      raceData: {
+        lap: {
+          best: race_bestLap,
+          last: race_lastLap,
+          current: race_currentLap,
+          number: race_lapNumber
+        },
+        raceTime: race_currentRaceTime,
+        position: race_position
+      }
     },
     carMovement: {
       acceleration: {
@@ -184,17 +208,9 @@ function processMessage(message) {
         Y: car_angularVelY,
         Z: car_angularVelZ
       },
-      position: {
-        X: car_posX,
-        Y: car_posY,
-        Z: car_posZ
-      },
       yaw: car_yaw,
       pitch: car_pitch,
-      roll: car_roll,
-      speed_ms: car_speed,
-      speed: car_speed * 3.6,
-      distanceTravelled: car_distanceTravelled
+      roll: car_roll
     },
     suspension: {
       travelNormalized: {
@@ -229,12 +245,6 @@ function processMessage(message) {
           fr: tire_tsc_fr,
           rl: tire_tsc_rl,
           rr: tire_tsc_rr
-        },
-        temperatures: {
-          fl: tire_temp_fl,
-          fr: tire_temp_fr,
-          rl: tire_temp_fr,
-          rr: tire_temp_rr
         }
       },
       rotationSpeed: {
@@ -265,13 +275,6 @@ function processMessage(message) {
       },
       normalizedDrivingLine: normalizedDrivingLine,
       normalizedAIBrakeDifference: normalizedAIBrakeDifference
-    },
-    input: {
-      throttle: input_accel,
-      brake: input_brake,
-      clutch: input_clutch,
-      handBrake: input_handBrake,
-      steer: input_steer
     },
     dashBytes: horizonDashBytes
   };
