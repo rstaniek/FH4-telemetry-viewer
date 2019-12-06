@@ -3,7 +3,7 @@ var HOST = "0.0.0.0";
 
 var dgram = require("dgram");
 var server = dgram.createSocket("udp4");
-var dump = require('buffer-hexdump');
+var dump = require("buffer-hexdump");
 
 server.on("listening", function() {
   var address = server.address();
@@ -13,7 +13,7 @@ server.on("listening", function() {
 server.on("message", function(message, remote) {
   const data = processMessage(message);
   //console.log(dump(message));
-  console.log(data);
+  displayDashboard(data);
 });
 server.bind(PORT, HOST);
 
@@ -21,6 +21,40 @@ process.on("SIGINT", function() {
   console.log("\n" + "> Exiting....");
   process.exit();
 });
+
+function displayDashboard(data) {
+  console.clear();
+  console.log(
+    "RPM: " +
+      data.engine.currentRpm +
+      " / " +
+      data.engine.maxRpm +
+      "\t\t Gear: " +
+      data.horizonDash.input.gear +
+      "\n"
+  );
+  console.log(
+    "Speed: " +
+      ~~data.horizonDash.speed +
+      "km/h\t\t Power: " +
+      ~~data.horizonDash.power +
+      "kW\n"
+  );
+  console.log(
+    "Position: " +
+      data.horizonDash.raceData.position +
+      "\t\t Total time: " +
+      data.horizonDash.raceData.raceTime +
+      "s\n"
+  );
+  console.log(
+    "Current lap: " +
+      data.horizonDash.raceData.lap.current +
+      "s\t\t Best:" +
+      data.horizonDash.raceData.lap.best +
+      "s\n"
+  );
+}
 
 function processMessage(message) {
   isRaceOn = message.readInt32LE(0);
@@ -281,5 +315,5 @@ function processMessage(message) {
 }
 
 function convertToCelsius(fahrenheit) {
-    return (fahrenheit - 32) * 5/9;
+  return ((fahrenheit - 32) * 5) / 9;
 }
