@@ -11,9 +11,9 @@ server.on("listening", function() {
 });
 
 server.on("message", function(message, remote) {
-  //const data = processMessage(message);
-  //console.log(data.horizonDash);
-  console.log(dump(message));
+  const data = processMessage(message);
+  //console.log(dump(message));
+  console.log(data.horizonDash);
 });
 server.bind(PORT, HOST);
 
@@ -126,17 +126,17 @@ function processMessage(message) {
   race_currentLap = message.readFloatLE(294);
   race_currentRaceTime = message.readFloatLE(298);
   race_lapNumber = message.readUIntLE(302, 2);
-  race_position = message.readUIntLE(304, 1);
+  race_position = message.readUIntLE(304, 2);
 
-  input_accel = message.readUIntLE(305, 1);
-  input_brake = message.readUIntLE(306, 1);
-  input_clutch = message.readUIntLE(307, 1);
-  input_handBrake = message.readUIntLE(308, 1);
-  input_gear = message.readUIntLE(309, 1);
-  input_steer = message.readIntLE(310, 1);
+  input_accel = message.readUIntLE(306, 2);
+  input_brake = message.readUIntLE(308, 2);
+  input_clutch = message.readUIntLE(310, 2);
+  input_handBrake = message.readUIntLE(312, 2);
+  input_gear = message.readUIntLE(314, 2);
+  input_steer = message.readIntLE(316, 2);
 
-  normalizedDrivingLine = message.readIntLE(311, 1);
-  normalizedAIBrakeDifference = message.readIntLE(312, 1);
+  normalizedDrivingLine = message.readIntLE(318, 2);
+  normalizedAIBrakeDifference = message.readIntLE(320, 2);
 
   const result = {
     isRaceOn: isRaceOn,
