@@ -102,41 +102,41 @@ function processMessage(message) {
   car_cylinders = message.readInt32LE(228);
 
   //horizon Sled data starts here
-  car_posX = message.readFloatLE(232);
-  car_posY = message.readFloatLE(236);
-  car_posZ = message.readFloatLE(240);
+  car_posX = message.readFloatLE(240);
+  car_posY = message.readFloatLE(244);
+  car_posZ = message.readFloatLE(248);
   //speed in meters/sec
-  car_speed = message.readFloatLE(244);
+  car_speed = message.readFloatLE(252);
   //power in Watts
-  engine_power = message.readFloatLE(248);
-  engine_torque = message.readFloatLE(252);
+  engine_power = message.readFloatLE(256);
+  engine_torque = message.readFloatLE(260);
 
   //tire temperatures
-  tire_temp_fl = message.readFloatLE(256);
-  tire_temp_fr = message.readFloatLE(260);
-  tire_temp_rl = message.readFloatLE(264);
-  tire_temp_rr = message.readFloatLE(270);
+  tire_temp_fl = message.readFloatLE(264);
+  tire_temp_fr = message.readFloatLE(268);
+  tire_temp_rl = message.readFloatLE(272);
+  tire_temp_rr = message.readFloatLE(276);
 
-  engine_boost = message.readFloatLE(274);
-  engine_fuel = message.readFloatLE(278);
-  car_distanceTravelled = message.readFloatLE(282);
+  engine_boost = message.readFloatLE(280);
+  engine_fuel = message.readFloatLE(284);
+  car_distanceTravelled = message.readFloatLE(286);
 
-  race_bestLap = message.readFloatLE(286);
-  race_lastLap = message.readFloatLE(290);
-  race_currentLap = message.readFloatLE(294);
-  race_currentRaceTime = message.readFloatLE(298);
-  race_lapNumber = message.readUIntLE(302, 2);
-  race_position = message.readUIntLE(304, 2);
+  race_bestLap = message.readFloatLE(290);
+  race_lastLap = message.readFloatLE(294);
+  race_currentLap = message.readFloatLE(298);
+  race_currentRaceTime = message.readFloatLE(302);
+  race_lapNumber = message.readUIntLE(306, 1);
+  race_position = message.readUIntLE(307, 1);
 
-  input_accel = message.readUIntLE(306, 2);
-  input_brake = message.readUIntLE(308, 2);
-  input_clutch = message.readUIntLE(310, 2);
-  input_handBrake = message.readUIntLE(312, 2);
-  input_gear = message.readUIntLE(314, 2);
-  input_steer = message.readIntLE(316, 2);
+  input_accel = message.readUInt(315, 1);
+  input_brake = message.readUInt(316, 1);
+  input_clutch = message.readUInt(317, 1);
+  input_handBrake = message.readUInt(318, 1);
+  input_gear = message.readUInt(319, 1);
+  input_steer = message.readInt(320, 1);
 
-  normalizedDrivingLine = message.readIntLE(318, 2);
-  normalizedAIBrakeDifference = message.readIntLE(320, 2);
+  normalizedDrivingLine = message.readIntLE(321, 1);
+  normalizedAIBrakeDifference = message.readInt16LE(322);
 
   const result = {
     isRaceOn: isRaceOn,
