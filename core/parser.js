@@ -74,42 +74,86 @@ function processMessage(message) {
   forceFeedback_rumble_rl = message.readFloatLE(156);
   forceFeedback_rumble_rr = message.readFloatLE(160);
 
+  //normalized slip angle 0 = full grip >1.0 is loss of grip
+  tire_tsa_fl = message.readFloatLE(164);
+  tire_tsa_fr = message.readFloatLE(168);
+  tire_tsa_rl = message.readFloatLE(172);
+  tire_tsa_rr = message.readFloatLE(176);
+  //normalized combined tire slip
+  tire_tsc_fl = message.readFloatLE(180);
+  tire_tsc_fr = message.readFloatLE(184);
+  tire_tsc_rl = message.readFloatLE(188);
+  tire_tsc_rr = message.readFloatLE(192);
+
+  //actual suspension travel in meters
+  susp_travel_fl = message.readFloatLE(196);
+  susp_travel_fr = message.readFloatLE(200);
+  susp_travel_rl = message.readFloatLE(204);
+  susp_travel_rr = message.readFloatLE(208);
+
+  car_ordinalID = message.readInt32LE(212);
+  //carr class 0-7 where 0 is worst
+  car_class = message.readInt32LE(216);
+  car_performanceIndex = message.readInt32LE(220);
+  //0-FWD, 1-RWD, 2-AWD
+  car_drivetrainType = message.readInt32LE(224);
+  car_cylinders = message.readInt32LE(228);
+
   const result = {
-      isRaceOn: isRaceOn,
-      timestamp: timestamp,
-      engine: {
-          maxRpm: engine_maxRpm,
-          idleRpm: engine_idleRpm,
-          currentRpm: engine_rpm
-      },
-      carGeneral: {
-          accX: car_accX,
-          accY: car_accY,
-          accZ: car_accZ,
-          velX: car_velX,
-          velY: car_velY,
-          velZ: car_velZ,
-          angularVelX: car_angularVelX,
-          angularVelY: car_angularVelY,
-          angularVelZ: car_angularVelZ,
-          yaw: car_yaw,
-          pitch: car_pitch,
-          roll: car_roll
-      },
-      suspension: {
-          travel_fl: susp_normTravel_fl,
-          travel_fr: susp_normTravel_fr,
-          travel_rl: susp_normTravel_rl,
-          travel_rr: susp_normTravel_rr
-      },
-      wheels: {
-          tires: {
-              slipRatio_fl: tire_tsr_fl,
-              slipRatio_fr: tire_tsr_fr,
-              slipRatio_rl: tire_tsr_rl,
-              slipRatio_rr: tire_tsr_rr
-          }
+    isRaceOn: isRaceOn,
+    timestamp: timestamp,
+    engine: {
+      maxRpm: engine_maxRpm,
+      idleRpm: engine_idleRpm,
+      currentRpm: engine_rpm
+    },
+    carInfo: {
+        id: car_ordinalID,
+        class: car_class,
+        performanceIndex: car_performanceIndex,
+        drivetrain: car_drivetrainType,
+        numOfCylinders: car_cylinders
+    },
+    carMovement: {
+      accX: car_accX,
+      accY: car_accY,
+      accZ: car_accZ,
+      velX: car_velX,
+      velY: car_velY,
+      velZ: car_velZ,
+      angularVelX: car_angularVelX,
+      angularVelY: car_angularVelY,
+      angularVelZ: car_angularVelZ,
+      yaw: car_yaw,
+      pitch: car_pitch,
+      roll: car_roll
+    },
+    suspension: {
+      travelNorm_fl: susp_normTravel_fl,
+      travelNorm_fr: susp_normTravel_fr,
+      travelNorm_rl: susp_normTravel_rl,
+      travelNorm_rr: susp_normTravel_rr,
+      travel_fl: susp_travel_fl,
+      travel_fr: susp_travel_fr,
+      travel_rl: susp_travel_rl,
+      travel_rr: susp_travel_rr
+    },
+    wheels: {
+      tires: {
+        slipRatio_fl: tire_tsr_fl,
+        slipRatio_fr: tire_tsr_fr,
+        slipRatio_rl: tire_tsr_rl,
+        slipRatio_rr: tire_tsr_rr,
+        slipAngle_fl: tire_tsa_fl,
+        slipAngle_fr: tire_tsa_fr,
+        slipAngle_rl: tire_tsa_rl,
+        slipAngle_rr: tire_tsa_rr,
+        slipCombined_fl: tire_tsc_fl,
+        slipCombined_fr: tire_tsc_fr,
+        slipCombined_rl: tire_tsc_rl,
+        slipCombined_rr: tire_tsc_rr
       }
-  }
+    }
+  };
   return result;
 }
