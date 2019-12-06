@@ -119,14 +119,14 @@ function processMessage(message) {
 
   engine_boost = message.readFloatLE(280);
   engine_fuel = message.readFloatLE(284);
-  car_distanceTravelled = message.readFloatLE(286);
+  car_distanceTravelled = message.readFloatLE(288);
 
   race_bestLap = message.readFloatLE(290);
-  race_lastLap = message.readFloatLE(294);
-  race_currentLap = message.readFloatLE(298);
-  race_currentRaceTime = message.readFloatLE(302);
-  race_lapNumber = message.readUIntLE(306, 1);
-  race_position = message.readUIntLE(307, 1);
+  race_lastLap = message.readFloatLE(296);
+  race_currentLap = message.readFloatLE(300);
+  race_currentRaceTime = message.readFloatLE(304);
+  race_lapNumber = message.readUInt16LE(308);
+  race_position = message.readUIntLE(310, 1);
 
   input_accel = message.readUIntLE(315, 1);
   input_brake = message.readUIntLE(316, 1);
