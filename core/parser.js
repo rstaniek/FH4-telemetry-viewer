@@ -3,6 +3,7 @@ var HOST = "0.0.0.0";
 
 var dgram = require("dgram");
 var server = dgram.createSocket("udp4");
+var dump = require('buffer-hexdump');
 
 server.on("listening", function() {
   var address = server.address();
@@ -10,9 +11,9 @@ server.on("listening", function() {
 });
 
 server.on("message", function(message, remote) {
-  const data = processMessage(message);
-  console.log(data.horizonDash);
-  console.warn(data.dashBytes);
+  //const data = processMessage(message);
+  //console.log(data.horizonDash);
+  console.log(dump(message));
 });
 server.bind(PORT, HOST);
 
@@ -137,8 +138,6 @@ function processMessage(message) {
   normalizedDrivingLine = message.readIntLE(311, 1);
   normalizedAIBrakeDifference = message.readIntLE(312, 1);
 
-  horizonDashBytes = Buffer.from(message, 232, 92);
-
   const result = {
     isRaceOn: isRaceOn,
     timestamp: timestamp,
@@ -173,6 +172,8 @@ function processMessage(message) {
       boost: engine_boost,
       fuel: engine_fuel,
       distanceTravelled: car_distanceTravelled,
+      normalizedDrivingLine: normalizedDrivingLine,
+      normalizedAIBrakeDifference: normalizedAIBrakeDifference,
       input: {
         throttle: input_accel,
         brake: input_brake,
@@ -272,11 +273,8 @@ function processMessage(message) {
         fr: forceFeedback_rumble_fr,
         rl: forceFeedback_rumble_rl,
         rr: forceFeedback_rumble_rr
-      },
-      normalizedDrivingLine: normalizedDrivingLine,
-      normalizedAIBrakeDifference: normalizedAIBrakeDifference
-    },
-    dashBytes: horizonDashBytes
+      }
+    }
   };
   return result;
 }
