@@ -23,35 +23,28 @@ process.on("SIGINT", function() {
 });
 
 function displayDashboard(data) {
-  console.clear();
   console.log(
-    "RPM: " +
+    "\nRPM: " +
       data.engine.currentRpm +
       " / " +
       data.engine.maxRpm +
       "\t\t Gear: " +
       data.horizonDash.input.gear +
-      "\n"
-  );
-  console.log(
-    "Speed: " +
-      ~~data.horizonDash.speed +
+      "\n" +
+      "Speed: " +
+      Math.round(data.horizonDash.speed) +
       "km/h\t\t Power: " +
-      ~~data.horizonDash.power +
-      "kW\n"
-  );
-  console.log(
-    "Position: " +
+      Math.round(data.horizonDash.power) +
+      "kW\n" +
+      "Position: " +
       data.horizonDash.raceData.position +
       "\t\t Total time: " +
-      data.horizonDash.raceData.raceTime +
-      "s\n"
-  );
-  console.log(
-    "Current lap: " +
-      data.horizonDash.raceData.lap.current +
+      Math.round(data.horizonDash.raceData.raceTime) +
+      "s\n" +
+      "Current lap: " +
+      Math.round(data.horizonDash.raceData.lap.current) +
       "s\t\t Best:" +
-      data.horizonDash.raceData.lap.best +
+      Math.round(data.horizonDash.raceData.lap.best) +
       "s\n"
   );
 }
@@ -60,9 +53,9 @@ function processMessage(message) {
   isRaceOn = message.readInt32LE(0);
   timestamp = message.readInt32LE(4);
 
-  engine_maxRpm = ~~message.readFloatLE(8);
-  engine_idleRpm = ~~message.readFloatLE(12);
-  engine_rpm = ~~message.readFloatLE(16);
+  engine_maxRpm = Math.round(message.readFloatLE(8));
+  engine_idleRpm = Math.round(message.readFloatLE(12));
+  engine_rpm = Math.round(message.readFloatLE(16));
 
   car_accX = message.readFloatLE(20);
   car_accY = message.readFloatLE(24);
