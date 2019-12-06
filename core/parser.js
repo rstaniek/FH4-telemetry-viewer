@@ -128,12 +128,12 @@ function processMessage(message) {
   race_lapNumber = message.readUIntLE(306, 1);
   race_position = message.readUIntLE(307, 1);
 
-  input_accel = message.readUInt(315, 1);
-  input_brake = message.readUInt(316, 1);
-  input_clutch = message.readUInt(317, 1);
-  input_handBrake = message.readUInt(318, 1);
-  input_gear = message.readUInt(319, 1);
-  input_steer = message.readInt(320, 1);
+  input_accel = message.readUIntLE(315, 1);
+  input_brake = message.readUIntLE(316, 1);
+  input_clutch = message.readUIntLE(317, 1);
+  input_handBrake = message.readUIntLE(318, 1);
+  input_gear = message.readUIntLE(319, 1);
+  input_steer = message.readIntLE(320, 1);
 
   normalizedDrivingLine = message.readIntLE(321, 1);
   normalizedAIBrakeDifference = message.readInt16LE(322);
