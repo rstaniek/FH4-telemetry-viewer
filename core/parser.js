@@ -11,7 +11,7 @@ server.on("listening", function() {
 
 server.on("message", function(message, remote) {
   const data = processMessage(message);
-  print(data);
+  console.log(data);
 });
 server.bind(PORT, HOST);
 
