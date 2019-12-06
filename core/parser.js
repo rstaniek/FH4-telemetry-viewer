@@ -136,7 +136,7 @@ function processMessage(message) {
   normalizedDrivingLine = message.readIntLE(311, 1);
   normalizedAIBrakeDifference = message.readIntLE(312, 1);
 
-  horizonDashBytes = Buffer.from(message, 232);
+  horizonDashBytes = Buffer.from(message, 232, 92);
 
   const result = {
     isRaceOn: isRaceOn,
