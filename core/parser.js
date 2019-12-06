@@ -112,10 +112,10 @@ function processMessage(message) {
   engine_torque = message.readFloatLE(264);
 
   //tire temperatures
-  tire_temp_fl = message.readFloatLE(268);
-  tire_temp_fr = message.readFloatLE(272);
-  tire_temp_rl = message.readFloatLE(276);
-  tire_temp_rr = message.readFloatLE(280);
+  tire_temp_fl = convertToCelsius(message.readFloatLE(268));
+  tire_temp_fr = convertToCelsius(message.readFloatLE(272));
+  tire_temp_rl = convertToCelsius(message.readFloatLE(276));
+  tire_temp_rr = convertToCelsius(message.readFloatLE(280));
 
   //this works fine
   engine_boost = message.readFloatLE(284);
@@ -278,4 +278,8 @@ function processMessage(message) {
     }
   };
   return result;
+}
+
+function convertToCelsius(fahrenheit) {
+    return (fahrenheit - 32) * 5/9;
 }
