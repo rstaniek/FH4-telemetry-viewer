@@ -108,50 +108,92 @@ function processMessage(message) {
       currentRpm: engine_rpm
     },
     carInfo: {
-        id: car_ordinalID,
-        class: car_class,
-        performanceIndex: car_performanceIndex,
-        drivetrain: car_drivetrainType,
-        numOfCylinders: car_cylinders
+      id: car_ordinalID,
+      class: car_class,
+      performanceIndex: car_performanceIndex,
+      drivetrain: car_drivetrainType,
+      numOfCylinders: car_cylinders
     },
     carMovement: {
-      accX: car_accX,
-      accY: car_accY,
-      accZ: car_accZ,
-      velX: car_velX,
-      velY: car_velY,
-      velZ: car_velZ,
-      angularVelX: car_angularVelX,
-      angularVelY: car_angularVelY,
-      angularVelZ: car_angularVelZ,
+      acceleration: {
+        X: car_accX,
+        Y: car_accY,
+        Z: car_accZ
+      },
+      velocity: {
+        X: car_velX,
+        Y: car_velY,
+        Z: car_velZ
+      },
+      angularVelocity: {
+        X: car_angularVelX,
+        Y: car_angularVelY,
+        Z: car_angularVelZ
+      },
       yaw: car_yaw,
       pitch: car_pitch,
       roll: car_roll
     },
     suspension: {
-      travelNorm_fl: susp_normTravel_fl,
-      travelNorm_fr: susp_normTravel_fr,
-      travelNorm_rl: susp_normTravel_rl,
-      travelNorm_rr: susp_normTravel_rr,
-      travel_fl: susp_travel_fl,
-      travel_fr: susp_travel_fr,
-      travel_rl: susp_travel_rl,
-      travel_rr: susp_travel_rr
+      travelNormalized: {
+        fl: susp_normTravel_fl,
+        fr: susp_normTravel_fr,
+        rl: susp_normTravel_rl,
+        rr: susp_normTravel_rr
+      },
+      travel: {
+        fl: susp_travel_fl,
+        fr: susp_travel_fr,
+        rl: susp_travel_rl,
+        rr: susp_travel_rr
+      }
     },
     wheels: {
       tires: {
-        slipRatio_fl: tire_tsr_fl,
-        slipRatio_fr: tire_tsr_fr,
-        slipRatio_rl: tire_tsr_rl,
-        slipRatio_rr: tire_tsr_rr,
-        slipAngle_fl: tire_tsa_fl,
-        slipAngle_fr: tire_tsa_fr,
-        slipAngle_rl: tire_tsa_rl,
-        slipAngle_rr: tire_tsa_rr,
-        slipCombined_fl: tire_tsc_fl,
-        slipCombined_fr: tire_tsc_fr,
-        slipCombined_rl: tire_tsc_rl,
-        slipCombined_rr: tire_tsc_rr
+        slipRatio: {
+          fl: tire_tsr_fl,
+          fr: tire_tsr_fr,
+          rl: tire_tsr_rl,
+          rr: tire_tsr_rr
+        },
+        slipAngle: {
+          fl: tire_tsa_fl,
+          fr: tire_tsa_fr,
+          rl: tire_tsa_rl,
+          rr: tire_tsa_rr
+        },
+        slipCombined: {
+          fl: tire_tsc_fl,
+          fr: tire_tsc_fr,
+          rl: tire_tsc_rl,
+          rr: tire_tsc_rr
+        }
+      },
+      rotationSpeed: {
+        fl: wheel_rotationSpeed_fl,
+        fr: wheel_rotationSpeed_fr,
+        rl: wheel_rotationSpeed_rl,
+        rr: wheel_rotationSpeed_rr
+      },
+      isCrosingRumbleStrip: {
+        fl: wheel_onRumble_fl,
+        fr: wheel_onRumble_fr,
+        rl: wheel_onRumble_rl,
+        rr: wheel_onRumble_rr
+      },
+      inPuddleDepth: {
+        fl: wheel_inPuddleDepth_fl,
+        fr: wheel_inPuddleDepth_fr,
+        fl: wheel_inPuddleDepth_rl,
+        rr: wheel_inPuddleDepth_rr
+      }
+    },
+    misc: {
+      forceFeedbackRumble: {
+        fl: forceFeedback_rumble_fl,
+        fr: forceFeedback_rumble_fr,
+        rl: forceFeedback_rumble_rl,
+        rr: forceFeedback_rumble_rr
       }
     }
   };
